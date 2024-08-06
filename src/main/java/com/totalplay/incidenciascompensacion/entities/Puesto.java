@@ -5,15 +5,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.type.SqlTypes;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Builder
@@ -22,8 +19,7 @@ import java.util.UUID;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class Empleado {
-
+public class Puesto {
     @Id
     @UuidGenerator
     @JdbcTypeCode(SqlTypes.CHAR)
@@ -34,17 +30,4 @@ public class Empleado {
     @Size(max = 255)
     @Column(length = 255, nullable = false)
     private String nombre;
-    @NotNull
-    @JdbcTypeCode(SqlTypes.CHAR)
-    @Column(length = 36, columnDefinition = "varchar(36)", nullable = false)
-    private UUID id_puesto;
-    private LocalDateTime fechaIngreso;
-    private LocalDateTime fechaUltimoIncremento;
-    @NotNull
-    @Positive
-    private BigDecimal salarioActual;
-    @Size(max = 255)
-    @JdbcTypeCode(SqlTypes.CHAR)
-    @Column(length = 255, columnDefinition = "varchar(36)", updatable = false, nullable = false)
-    private String jefeDirecto;
 }
