@@ -44,6 +44,7 @@ public class BootStrapData  implements CommandLineRunner {
     }
 
     private void loadEstatusData() {
+        log.debug("BootStrapData -> loadEstatusData");
         Estatus e1 = Estatus.builder()
                 .descripcion("PENDIENTE POR APROBAR")
                 .build();
@@ -68,6 +69,7 @@ public class BootStrapData  implements CommandLineRunner {
     }
 
     private void loadPuestoData() {
+        log.debug("BootStrapData -> loadPuestoData");
         Puesto p1 = Puesto.builder()
                 .nombre("CTO")
                 .build();
@@ -112,6 +114,7 @@ public class BootStrapData  implements CommandLineRunner {
     }
 
     private void loadEmpleadoData() {
+        log.debug("BootStrapData -> loadEmpleadoData");
 
         List<Puesto> puestoList = puestoRepository.findAll();
         Puesto p1 = puestoList.getFirst();
@@ -124,7 +127,6 @@ public class BootStrapData  implements CommandLineRunner {
                 .salarioActual(new BigDecimal("10000.99"))
                 .jefeDirecto("Juan Carlos SL")
                 .build();
-
 
         empleadoRepository.saveAll(Arrays.asList(empleado));
     }
