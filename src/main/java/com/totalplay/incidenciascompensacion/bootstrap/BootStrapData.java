@@ -1,8 +1,10 @@
 package com.totalplay.incidenciascompensacion.bootstrap;
 
 import com.totalplay.incidenciascompensacion.entities.Empleado;
+import com.totalplay.incidenciascompensacion.entities.Estatus;
 import com.totalplay.incidenciascompensacion.entities.Puesto;
 import com.totalplay.incidenciascompensacion.repositories.EmpleadoRepository;
+import com.totalplay.incidenciascompensacion.repositories.EstatusRepository;
 import com.totalplay.incidenciascompensacion.repositories.PuestoRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,9 +25,14 @@ public class BootStrapData  implements CommandLineRunner {
 
     private final PuestoRepository puestoRepository;
 
+    private final EstatusRepository estatusRepository;
+
     @Override
     public void run(String... args) throws Exception {
         //empleadoRepository.deleteAll();
+        if(estatusRepository.count() == 0) {
+            loadEstatusData();
+        }
 
         if(puestoRepository.count() == 0) {
             loadPuestoData();
@@ -34,6 +41,30 @@ public class BootStrapData  implements CommandLineRunner {
         if(empleadoRepository.count() == 0) {
             loadEmpleadoData();
         }
+    }
+
+    private void loadEstatusData() {
+        Estatus e1 = Estatus.builder()
+                .descripcion("PENDIENTE POR APROBAR")
+                .build();
+
+        Estatus e2 = Estatus.builder()
+                .descripcion("EN PROCESO DE APROBACION")
+                .build();
+
+        Estatus e3 = Estatus.builder()
+                .descripcion("APROBADOS")
+                .build();
+
+        Estatus e4 = Estatus.builder()
+                .descripcion("RECHAZADOS")
+                .build();
+
+        Estatus e5 = Estatus.builder()
+                .descripcion("LIBERADO")
+                .build();
+
+        estatusRepository.saveAll(Arrays.asList(e1, e2, e3, e4, e5));
     }
 
     private void loadPuestoData() {
