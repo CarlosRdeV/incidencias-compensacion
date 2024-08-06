@@ -1,14 +1,13 @@
 package com.totalplay.incidenciascompensacion.bootstrap;
 
-import com.totalplay.incidenciascompensacion.entities.TipoIncidencia;
-import com.totalplay.incidenciascompensacion.entities.TipoPeriodo;
-import com.totalplay.incidenciascompensacion.repositories.TipoIncidenciaRepository;
-import com.totalplay.incidenciascompensacion.repositories.TipoPeriodoRepository;
+import com.totalplay.incidenciascompensacion.entities.Empleado;
+import com.totalplay.incidenciascompensacion.repositories.EmpleadoRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 
@@ -17,70 +16,30 @@ import java.util.Arrays;
 @Slf4j
 public class BootStrapData  implements CommandLineRunner {
 
-    private final TipoPeriodoRepository tipoPeriodoRepository;
-
-    private final TipoIncidenciaRepository tipoIncidenciaRepository;
+    private final EmpleadoRepository empleadoRepository;
 
     @Override
     public void run(String... args) throws Exception {
-        if (tipoPeriodoRepository.count() == 0) {
-            loadTipoPeriodoData();
-        }
+        empleadoRepository.deleteAll();
 
-        if (tipoIncidenciaRepository.count() == 0) {
-            loadTipoIncidenciaData();
+        if(empleadoRepository.count() == 0) {
+            loadEmpleadoData();
         }
     }
 
-    private void loadTipoIncidenciaData() {
-        log.debug("BootStrapData -> loadTipoIncidenciaData");
-        TipoIncidencia tipoIncidencia1 = TipoIncidencia.builder()
-                .nombre("Compensacion")
-                .activo(true)
-                .createdDate(LocalDateTime.now())
-                .updateDate(LocalDateTime.now())
+    private void loadEmpleadoData() {
+        Empleado empleado = Empleado.builder()
+                .nombre("Carlos Rivera")
+                .puesto("Lider Tecnico")
+                .fechaIngreso(LocalDateTime.now().minusYears(2))
+                .fechaUltimoIncremento(LocalDateTime.now().minusMonths(8))
+                .salarioActual(new BigDecimal("10000.99"))
+                .jefeDirecto("Juan Carlos SL")
                 .build();
 
-        TipoIncidencia tipoIncidencia2 = TipoIncidencia.builder()
-                .nombre("Reembolso")
-                .activo(true)
-                .createdDate(LocalDateTime.now())
-                .updateDate(LocalDateTime.now())
-                .build();
 
-        TipoIncidencia tipoIncidencia3 = TipoIncidencia.builder()
-                .nombre("Faltas mal aplicadas")
-                .activo(true)
-                .createdDate(LocalDateTime.now())
-                .updateDate(LocalDateTime.now())
-                .build();
-
-        tipoIncidenciaRepository.saveAll(Arrays.asList(tipoIncidencia1, tipoIncidencia2, tipoIncidencia3));
+        empleadoRepository.saveAll(Arrays.asList(empleado));
     }
 
-    private void loadTipoPeriodoData() {
-        log.debug("BootStrapData -> loadTipoPeriodoData");
-        TipoPeriodo tipoPeriodo1 = TipoPeriodo.builder()
-                .nombre("Semanal")
-                .activo(true)
-                .createdDate(LocalDateTime.now())
-                .updateDate(LocalDateTime.now())
-                .build();
 
-        TipoPeriodo tipoPeriodo2 = TipoPeriodo.builder()
-                .nombre("Quincenal")
-                .activo(true)
-                .createdDate(LocalDateTime.now())
-                .updateDate(LocalDateTime.now())
-                .build();
-
-        TipoPeriodo tipoPeriodo3 = TipoPeriodo.builder()
-                .nombre("Mensual")
-                .activo(true)
-                .createdDate(LocalDateTime.now())
-                .updateDate(LocalDateTime.now())
-                .build();
-
-        tipoPeriodoRepository.saveAll(Arrays.asList(tipoPeriodo1, tipoPeriodo2, tipoPeriodo3));
-    }
 }
