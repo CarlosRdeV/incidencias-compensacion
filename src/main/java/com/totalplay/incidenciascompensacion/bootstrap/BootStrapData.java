@@ -1,6 +1,8 @@
 package com.totalplay.incidenciascompensacion.bootstrap;
 
+import com.totalplay.incidenciascompensacion.entities.TipoIncidencia;
 import com.totalplay.incidenciascompensacion.entities.TipoPeriodo;
+import com.totalplay.incidenciascompensacion.repositories.TipoIncidenciaRepository;
 import com.totalplay.incidenciascompensacion.repositories.TipoPeriodoRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,11 +19,43 @@ public class BootStrapData  implements CommandLineRunner {
 
     private final TipoPeriodoRepository tipoPeriodoRepository;
 
+    private final TipoIncidenciaRepository tipoIncidenciaRepository;
+
     @Override
     public void run(String... args) throws Exception {
         if (tipoPeriodoRepository.count() == 0) {
             loadTipoPeriodoData();
         }
+
+        if (tipoIncidenciaRepository.count() == 0) {
+            loadTipoIncidenciaData();
+        }
+    }
+
+    private void loadTipoIncidenciaData() {
+        log.debug("BootStrapData -> loadTipoIncidenciaData");
+        TipoIncidencia tipoIncidencia1 = TipoIncidencia.builder()
+                .nombre("Compensacion")
+                .activo(true)
+                .createdDate(LocalDateTime.now())
+                .updateDate(LocalDateTime.now())
+                .build();
+
+        TipoIncidencia tipoIncidencia2 = TipoIncidencia.builder()
+                .nombre("Reembolso")
+                .activo(true)
+                .createdDate(LocalDateTime.now())
+                .updateDate(LocalDateTime.now())
+                .build();
+
+        TipoIncidencia tipoIncidencia3 = TipoIncidencia.builder()
+                .nombre("Faltas mal aplicadas")
+                .activo(true)
+                .createdDate(LocalDateTime.now())
+                .updateDate(LocalDateTime.now())
+                .build();
+
+        tipoIncidenciaRepository.saveAll(Arrays.asList(tipoIncidencia1, tipoIncidencia2, tipoIncidencia3));
     }
 
     private void loadTipoPeriodoData() {
